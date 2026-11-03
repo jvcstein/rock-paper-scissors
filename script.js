@@ -6,43 +6,58 @@ function getComputerChoice() {
         (compChoice == 1) ? "paper" : "scissors";
 }
 
-function getHumanChoice() {
-    let choice = prompt("Chose one:\nRock\nPaper\nScissors");
-    return choice.toLowerCase();
-}
-
 function playRound(humanChoice, computerChoice) {
     console.log(`Computer: ${computerChoice}\nYou: ${humanChoice}`);
     if((computerChoice == "paper" && humanChoice == "rock") 
         || (computerChoice == "scissors" && humanChoice == "paper"
         || (computerChoice == "rock" && humanChoice == "scissors"))) {
         computerScore++;
-        console.log("Computer Wins!");
+        alert("Computer Wins!");
     } else if((humanChoice == "paper" && computerChoice == "rock") 
         || (humanChoice == "scissors" && computerChoice == "paper")
         || (humanChoice == "rock" && computerChoice == "scissors")) {
         humanScore++;
-        console.log("You Win!");
+        alert("You win!");
     } else {
-        console.log("It's a Draw!");
+        alert("It's a draw!");
     }
     console.log(`You: ${humanScore}\nComputer: ${computerScore}`);
 }
 
-function playGame() {
-    for(let i = 0; i < 5; i++) {
-        let humanChoice = getHumanChoice();
-        let computerChoice = getComputerChoice();
-        playRound(humanChoice, computerChoice);
+function playGame(humanChoice) {
+
+    let computerChoice = getComputerChoice();
+    playRound(humanChoice, computerChoice);
+
+    roundsPlayed++;
+    
+    if(roundsPlayed == 5) {
+        if(computerScore > humanScore) {
+            alert("Computer Wins the game! Better luck next time!");
+        } else if(computerScore < humanScore) {
+            alert("You Win the game! Congratulations!");
+        } else alert("The game is a Draw!");
+
+        humanScore, computerScore, roundsPlayed = 0;
     }
-    if(computerScore > humanScore) {
-        console.log("Computer Wins the game! Better luck next time!");
-    } else if(computerScore < humanScore) {
-        console.log("You Win the game! Congratulations!");
-    } else console.log("The game is a Draw!")
 }
 
 let humanScore = 0;
 let computerScore = 0;
+let roundsPlayed = 0;
 
-playGame();
+
+const rock = document.querySelector("#rock");
+rock.addEventListener("click", () => {
+    playGame("rock");
+})
+
+const paper = document.querySelector("#paper");
+paper.addEventListener("click", () => {
+    playGame("paper");
+})
+
+const scissors = document.querySelector("#scissors");
+scissors.addEventListener("click", () => {
+    playGame("scissors");
+})
